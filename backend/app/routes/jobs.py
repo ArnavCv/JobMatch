@@ -9,13 +9,13 @@ from app.schemas.job import JobCreate, JobUpdate, JobOut
 
 router = APIRouter()
 
-@router.get("/jobs", response_model=List[JobOut])
+@router.get("/", response_model=List[JobOut])
 def list_jobs(db: Session = Depends(get_db)):
     
     jobs = db.query(Job).all()
     return jobs
 
-@router.post("/jobs", status_code=status.HTTP_201_CREATED, response_model=JobCreate)
+@router.post("/", status_code=status.HTTP_201_CREATED, response_model=JobCreate)
 def create_job(job: JobCreate, db: Session = Depends(get_db)):
     
     new_job = Job(**job.model_dump())
@@ -24,7 +24,7 @@ def create_job(job: JobCreate, db: Session = Depends(get_db)):
     db.refresh(new_job)
     return new_job
 
-@router.get("/jobs/{id}", response_model=JobOut)
+@router.get("/{id}", response_model=JobOut)
 def get_job(id: int, db: Session = Depends(get_db)):
     
     job = db.query(Job).filter(Job.id == id).first()
@@ -34,7 +34,7 @@ def get_job(id: int, db: Session = Depends(get_db)):
     
     return job
 
-@router.delete("/jobs/{id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_job(id: int, db: Session = Depends(get_db)):
     
     job = db.query(Job).filter(Job.id == id)
@@ -47,7 +47,7 @@ def delete_job(id: int, db: Session = Depends(get_db)):
     
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
-@router.put("/jobs/{id}", response_model=JobOut)
+@router.put("/{id}", response_model=JobOut)
 def update_job(id: int, updated_job: JobUpdate, db: Session = Depends(get_db)):
     
     job_query = db.query(Job).filter(Job.id == id)
