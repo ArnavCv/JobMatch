@@ -1,35 +1,34 @@
+from datetime import datetime
+
 from sqlalchemy import (
     TIMESTAMP,
     Boolean,
-    Column,
     ForeignKey,
-    Integer,
     UniqueConstraint,
     text,
 )
+from sqlalchemy.orm import Mapped, mapped_column
 from app.database import Base
 
 
 class Swipe(Base):
     __tablename__ = "swipes"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
 
-    user_id = Column(
-        Integer,
+    user_id: Mapped[int] = mapped_column(
         ForeignKey("users.id"),
         nullable=False
     )
 
-    job_id = Column(
-        Integer,
+    job_id: Mapped[int] = mapped_column(
         ForeignKey("jobs.id"),
         nullable=False
     )
 
-    action = Column(Boolean, nullable=False)
+    action: Mapped[bool] = mapped_column(Boolean, nullable=False)
 
-    created_at = Column(
+    created_at: Mapped[datetime | None] = mapped_column(
         TIMESTAMP(timezone=True),
         server_default=text("now()")
     )

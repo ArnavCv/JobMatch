@@ -4,7 +4,7 @@ from typing import Literal
 class UserCreate(BaseModel):
     name: str
     email: EmailStr
-    password_hash: str
+    password: str
     role: Literal["job_seeker", "recruiter"]
 
 class UserOut(BaseModel):
@@ -15,4 +15,4 @@ class UserOut(BaseModel):
 
 class UserLogin(BaseModel):
     email: EmailStr
-    password_hash: str
+    password: str

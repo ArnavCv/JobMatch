@@ -1,39 +1,38 @@
+from datetime import datetime
+
 from sqlalchemy import (
     TIMESTAMP,
-    Column,
     ForeignKey,
-    Integer,
     String,
     UniqueConstraint,
     text,
 )
+from sqlalchemy.orm import Mapped, mapped_column
 from app.database import Base
 
 
 class Match(Base):
     __tablename__ = "matches"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
 
-    user_id = Column(
-        Integer,
+    user_id: Mapped[int] = mapped_column(
         ForeignKey("users.id"),
         nullable=False
     )
 
-    job_id = Column(
-        Integer,
+    job_id: Mapped[int] = mapped_column(
         ForeignKey("jobs.id"),
         nullable=False
     )
 
-    status = Column(
+    status: Mapped[str] = mapped_column(
         String,
         nullable=False,
         default="matched"
     )
 
-    created_at = Column(
+    created_at: Mapped[datetime | None] = mapped_column(
         TIMESTAMP(timezone=True),
         server_default=text("now()")
     )
